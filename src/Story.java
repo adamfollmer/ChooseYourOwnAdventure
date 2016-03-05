@@ -2,16 +2,10 @@ import java.util.Scanner;
 
 public class Story {
 
-	public static void main(String[] args) {
-		String[] mageSpells = { "FIREBALL", "ARCANE_EXPLOSION", "PYROBLAST" };
-		String[] warriorSpells = { "TAUNT", "ATTACK", "SHIELD BLOCK" };
-		String[] rogueSpells = { "SHIV", "ALAKHAZAM", "STEALTH" };
+	public static void main(String[] args) {		
 		String[] partyMembers = new String[4];
-		int health = 100;
-		int level = 1;
 		int dragonHealth = 600;
 		int bossDamage;
-		String[] backpack = { "Empty Bottle", "20 gold" };
 		Scanner scanner = new Scanner(System.in);
 		String adventurerName = "RANDY";
 		String heroClass = "MAGE";
@@ -33,6 +27,7 @@ public class Story {
 			heroClass = "MAGE";
 		}
 		System.out.println("Yeah, that's a good fit.");
+		Hero mainCharacter = new Hero(adventurerName, heroClass);
 		System.out.println();
 
 		System.out.println("Ok " + adventurerName + " the " + heroClass
@@ -42,14 +37,14 @@ public class Story {
 		System.out.println();
 
 		System.out.println("Here are your spells:");
-		for (int i = 0; i < mageSpells.length; i++) {
-			System.out.print(mageSpells[i] + ", ");
+		for (int i = 0; i < mainCharacter.spells.length; i++) {
+			System.out.print(mainCharacter.spells[i] + ", ");
 		}
 		System.out.println();
 		System.out.println();
 		System.out.println("Here's whats in your backpack:");
-		for (int i = 0; i < backpack.length; i++) {
-			System.out.print(backpack[i] + ", ");
+		for (int i = 0; i < mainCharacter.backpack.length; i++) {
+			System.out.print(mainCharacter.backpack[i] + ", ");
 		}
 		System.out.println();
 		System.out.println();
@@ -77,10 +72,11 @@ public class Story {
 		System.out.println("Which way?");
 
 		direction = scanner.next().toUpperCase();
+
 		while (direction.equals("HEALTH") || direction.equals("PARTY") || direction.equals("LEVEL")) {
 			switch (direction) {
 			case "HEALTH":
-				System.out.println("You have " + health + " HP.");
+				System.out.println("You have " + mainCharacter.health + " HP.");
 				break;
 			case "PARTY":
 				System.out.print("Party Members: ");
@@ -91,11 +87,12 @@ public class Story {
 				}
 				break;
 			case "LEVEL":
-				System.out.println(level);
+				System.out.println(mainCharacter.level);
 				break;
 			default:
 				break;
 			}
+
 			System.out.println();
 			System.out.println("What now?");
 			direction = scanner.next().toUpperCase();
@@ -108,17 +105,17 @@ public class Story {
 		case "RIGHT":
 			System.out.println("You encountered a monster! I hope you remembered the names of your spells, go!:");
 			currentSpell = scanner.next().toUpperCase();
-			if (currentSpell.equals(mageSpells[0])) {
+			if (currentSpell.equals(mainCharacter.spells[0])) {
 				System.out.println("Nice! One Shot! You leveled up!");
-				level++;
-			} else if (currentSpell.equals(mageSpells[1])) {
+				mainCharacter.level++;
+			} else if (currentSpell.equals(mainCharacter.spells[1])) {
 				System.out.println("That took a while. You took 25 damage but you leveled up!");
-				level++;
-				health = health - 25;
-			} else if (currentSpell.equals(mageSpells[2])) {
+				mainCharacter.level++;
+				mainCharacter.health = mainCharacter.health - 25;
+			} else if (currentSpell.equals(mainCharacter.spells[2])) {
 				System.out.println("You got 'em but you hurt yourself too. You took 50 damage but you leveled up!");
-				level++;
-				health = health - 50;
+				mainCharacter.level++;
+				mainCharacter.health = mainCharacter.health - 50;
 			} else {
 				System.out.println("Something went wrong. You lost the battle and died");
 				System.exit(1);
@@ -142,7 +139,7 @@ public class Story {
 		while (direction.equals("HEALTH") || direction.equals("PARTY") || direction.equals("LEVEL")) {
 			switch (direction) {
 			case "HEALTH":
-				System.out.println("You have " + health + " HP.");
+				System.out.println("You have " + mainCharacter.health + " HP.");
 				break;
 			case "PARTY":
 				System.out.print("Party Members: ");
@@ -153,7 +150,7 @@ public class Story {
 				}
 				break;
 			case "LEVEL":
-				System.out.println(level);
+				System.out.println(mainCharacter.level);
 				break;
 			default:
 				break;
@@ -171,17 +168,17 @@ public class Story {
 			System.out.println(
 					"You encountered many weak monsters! I hope you remembered the names of your spells, go!:");
 			currentSpell = scanner.next().toUpperCase();
-			if (currentSpell.equals(mageSpells[0])) {
+			if (currentSpell.equals(mainCharacter.spells[0])) {
 				System.out.println("It took some time to get them all. You took 25 damage but you leveled up!");
-				level++;
-				health = health - 25;
-			} else if (currentSpell.equals(mageSpells[1])) {
+				mainCharacter.level++;
+				mainCharacter.health = mainCharacter.health - 25;
+			} else if (currentSpell.equals(mainCharacter.spells[1])) {
 				System.out.println("Nice choice! You took no damage and you leveled up!");
-				level++;
-			} else if (currentSpell.equals(mageSpells[2])) {
+				mainCharacter.level++;
+			} else if (currentSpell.equals(mainCharacter.spells[2])) {
 				System.out.println("You got 'em but you hurt yourself too. You took 50 damage but you leveled up!");
-				level++;
-				health = health - 50;
+				mainCharacter.level++;
+				mainCharacter.health = mainCharacter.health - 50;
 			} else {
 				System.out.println("Something went wrong. You lost the battle and died");
 				System.exit(1);
@@ -194,7 +191,7 @@ public class Story {
 			System.out.println("No cheating. You Lose");
 			System.exit(1);
 		}
-		if (health <= 0) {
+		if (mainCharacter.health <= 0) {
 			System.out.println("You took too much damage on your journey and died.");
 			System.exit(1);
 		}
@@ -208,10 +205,10 @@ public class Story {
 		System.out.println("It's rigged to explode if the lock isn't properly picked.");
 		System.out.println("Have KENNY help you and enter the key words:");
 		currentSpell = scanner.next().toUpperCase();
-		if (currentSpell.equals(rogueSpells[1])) {
+		if (currentSpell.equals("ALAKHAZAM")) {
 			System.out.println("Phew! Nice work! You leveled up!");
 			System.out.println("The Sword of a Thousand Truths is in your possession! You feel stronger.");
-			level++;
+			mainCharacter.level++;
 		} else {
 			System.out.println("You killed Kenny! Game over!");
 			System.exit(1);
@@ -223,7 +220,7 @@ public class Story {
 		while (direction.equals("HEALTH") || direction.equals("PARTY") || direction.equals("LEVEL")) {
 			switch (direction) {
 			case "HEALTH":
-				System.out.println("You have " + health + " HP.");
+				System.out.println("You have " + mainCharacter.health + " HP.");
 				break;
 			case "PARTY":
 				System.out.print("Party Members: ");
@@ -234,7 +231,7 @@ public class Story {
 				}
 				break;
 			case "LEVEL":
-				System.out.println(level);
+				System.out.println(mainCharacter.level);
 				break;
 			default:
 				break;
@@ -249,16 +246,16 @@ public class Story {
 		System.out.println("Select your attack:");
 
 		currentSpell = scanner.next().toUpperCase();
-		if (currentSpell.equals(mageSpells[0])) {
-			bossDamage = level * 200;
+		if (currentSpell.equals(mainCharacter.spells[0])) {
+			bossDamage = mainCharacter.level * 200;
 			System.out.println("You did " + bossDamage + " damage to the dragon!");
 			dragonHealth = dragonHealth - bossDamage;
-		} else if (currentSpell.equals(mageSpells[1])) {
-			bossDamage = level * 100;
+		} else if (currentSpell.equals(mainCharacter.spells[1])) {
+			bossDamage = mainCharacter.level * 100;
 			System.out.println("You did " + bossDamage + " damage to the dragon");
 			dragonHealth = dragonHealth - bossDamage;
-		} else if (currentSpell.equals(mageSpells[2])) {
-			bossDamage = level * 500;
+		} else if (currentSpell.equals(mainCharacter.spells[2])) {
+			bossDamage = mainCharacter.level * 500;
 			System.out.println("You did " + bossDamage + " damage to the dragon");
 			dragonHealth = dragonHealth - bossDamage;
 		} else {
@@ -270,7 +267,7 @@ public class Story {
 			System.out.println("You beat the dragon and won the game!");
 		} else {
 			System.out.println("The dragon attacks!");
-			health = health - 100;
+			mainCharacter.health = mainCharacter.health - 100;
 			System.out.println("You (and Kenny) died. Try to get more levels or using a more powerful spell.");
 			System.exit(1);
 		}
